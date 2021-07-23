@@ -1,6 +1,8 @@
 package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -11,11 +13,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.icu.text.AlphabeticIndex;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -25,13 +31,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
     private FeedAdapter mAdapter = new FeedAdapter();
+    private final static int PERMISSION_REQUEST_CODE = 1001;
     private FloatingActionButton mScrollTopButton;
-
+    private TextView rec;
     public static void startMainActvity(AppCompatActivity activity){
         Intent intent = new Intent(activity , MainActivity.class);
         activity.startActivity(intent);
@@ -48,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         getData(null);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
+
+
+
         findViewById(R.id.add_video).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +73,48 @@ public class MainActivity extends AppCompatActivity {
         getData(null);
     }
 
+    public void customCamera(View view) {
+        requestPermission();
+    }
+
+    private void recordVideo() {
+        CustomCameraActivity.startUI(this);
+    }
+
+    private void requestPermission() {
+        boolean hasCameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        boolean hasAudioPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        if (hasCameraPermission && hasAudioPermission) {
+            recordVideo();
+        } else {
+            List<String> permission = new ArrayList<String>();
+            if (!hasCameraPermission) {
+                permission.add(Manifest.permission.CAMERA);
+            }
+            if (!hasAudioPermission) {
+                permission.add(Manifest.permission.RECORD_AUDIO);
+            }
+            ActivityCompat.requestPermissions(this, permission.toArray(new String[permission.size()]), PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasPermission = true;
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                hasPermission = false;
+                break;
+            }
+        }
+        if (hasPermission) {
+            recordVideo();
+        } else {
+            Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private void getData(String studentId){
         new Thread(new Runnable() {

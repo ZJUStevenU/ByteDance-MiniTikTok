@@ -55,13 +55,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/fri"
+            android:id="@+id/record"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="朋友"
+            android:text="錄制"
             android:textColor="#f2f2f2"
+            android:onClick="customCamera"
             android:textSize="17sp"
             android:textStyle="bold" />
 

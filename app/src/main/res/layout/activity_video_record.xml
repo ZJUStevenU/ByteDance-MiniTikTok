@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SurfaceView
+
+        android:layout_height="match_parent"
+
+        android:layout_width="match_parent"
+
+        android:layout_marginBottom="60dp"
+
+        android:id="@+id/surfaceview"
+        />
+
+    <ImageView
+
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="60dp"
+        android:id="@+id/imageview"
+        android:src="@mipmap/ic_launcher"
+        />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_start_or_stop"
+        android:text="录制"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        />
+
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_play"
+        android:text="播放"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_turn"
+        android:text="跳转"
+        android:layout_marginLeft="300dp"
+        android:layout_alignParentBottom="true"
+        />
+
+
+
+</RelativeLayout>

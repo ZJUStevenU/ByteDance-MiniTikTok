@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="title_activity_updata">UpdataActivity</string>
+    <string name="title_activity_custom_camera">CustomCameraActivity</string>
 </resources>
